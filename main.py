@@ -43,7 +43,6 @@ class Processador:
         self.tempo_execucao += 1
         if self.tarefa_atual != None:
             self.tarefa_atual.incrementa_tempo_executado()
-            print(self.tempo_execucao, self.tarefa_atual.instante_inicio, self.tarefa_atual.intervalo)
             if self.tempo_execucao > (self.tarefa_atual.instante_inicio + self.tarefa_atual.intervalo):
                 #O sistema não é escalonável
                 return False
@@ -106,21 +105,29 @@ class Memoria:
 #Classe que irá plotar o diagrama de Gantt caso o sistema seja escalonável
 class Gantt_Plotter:
     def __init__(self, n, tempo_maximo, tarefas):
-        cores = ['tab:red', 'tab:green', 'tab:blue', 'tab:orange']
+        cores = ['tab:red', 'tab:green', 'tab:blue', 'tab:orange', 'tab:cyan', 'tab:gray', 'tab:brown', 'yellow', 'lime']
         self.n = n
         self.tempo_maximo = tempo_maximo
         self.tarefa_cor = {}
-        for tarefa in tarefas:
+
+        yticks = []
+        ytickslabels = []
+        for index, tarefa in enumerate(tarefas):
             self.tarefa_cor[tarefa.prioridade] = random.choice(cores)
+            yticks.append(((index + 1)*10) - 5)
+            ytickslabels.append(str(index))
 
         #Definindo configurações iniciais do diagrama
         fig, self.gnt = plt.subplots()
         self.gnt.set_ylim(0, (10*n))  
         self.gnt.set_xlim(0, tempo_maximo)
-        
+
         self.gnt.set_xlabel('Tempo')
         self.gnt.set_ylabel('Tarefa')
-
+        
+        self.gnt.set_yticks(yticks)
+        self.gnt.set_yticklabels(['1', '2', '3'])
+        
         self.gnt.grid(True)
 
     def desenha_tarefa(self, tarefa, instante):
@@ -196,9 +203,6 @@ if __name__ == '__main__':
     gantt_plotter = Gantt_Plotter(n, tempo_maximo, tarefas)
     escalonavel = True
 
-    for tarefa in tarefas:
-        print(tarefa.instante_inicio)
-
     for instante in range(0, tempo_maximo):
         print(f"Instante {instante}: Buscando tarefas na memória.")
         tarefas_atuais = []
@@ -211,7 +215,7 @@ if __name__ == '__main__':
         if processador.tarefa_atual is not None:
             print(f"Processador executando tarefa com prioridade {processador.tarefa_atual.prioridade}")
             gantt_plotter.desenha_tarefa(processador.tarefa_atual, instante)
-        else:
+        #else:
             print(f"Processador está ocioso... Sem tarefas para executar")
 
         if not processador.executa():
