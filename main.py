@@ -1,6 +1,6 @@
 from copy import deepcopy
 import matplotlib.pyplot as plt
-import random
+import random, math
 
 algoritmo_escalonamento = 'EDF'
 tempo_atual = 0
@@ -124,7 +124,7 @@ class Gantt_Plotter:
         self.gnt.grid(True)
 
     def desenha_tarefa(self, tarefa, instante):
-        self.gnt.broken_barh([(instante, 1)], (10*tarefa.prioridade, 10), facecolors = (self.tarefa_cor[tarefa.prioridade]))
+        self.gnt.broken_barh([(instante, 1)], (10*tarefa.prioridade, 9), facecolors = (self.tarefa_cor[tarefa.prioridade]))
 
     def salva_diagrama(self):
         plt.savefig("Gantt_Diagram.png")
@@ -159,6 +159,26 @@ def ordenar_edf(tarefas):
     for index, tarefa in enumerate(tarefas): tarefa.set_prioridade(index)
     return tarefas
 
+def analise_tempo_resposta(tarefas, tempo_maximo):
+    for tarefa in reversed(tarefas):
+        print(f"Calculando tempo de resposta da tarefa com prioridade {tarefa.prioridade}")
+
+        valor_iteracao_passada = tarefa.tempo_execucao
+
+        for iteracao in range(0, tempo_maximo):
+            valor_iteracao = tarefa.tempo_execucao
+
+            for tarefa_maior_prioridade in tarefas:
+                if tarefa_maior_prioridade == tarefa:
+                    break
+                valor_iteracao += math.ceil(valor_iteracao_passada/tarefa_maior_prioridade.intervalo)*tarefa_maior_prioridade.tempo_execucao
+
+            if valor_iteracao == valor_iteracao_passada:
+                if valor_iteracao > tarefa.intervalo:
+                    #Sistema não é escalonável
+                    return valor_iteracao, tarefa
+                break
+            valor_iteracao_passada = valor_iteracao
 
 
 if __name__ == '__main__':
@@ -197,9 +217,15 @@ if __name__ == '__main__':
         if not processador.executa():
             escalonavel = False
             break
+    
+    if not processador.fila.isEmpty():
+        escalonavel = False
 
     if escalonavel:
         print("O sistema é escalonável. Gerando diagrama de Gantt...")
         gantt_plotter.salva_diagrama()
     else:
         print("O sistema não é escalonável")
+        print("Calculando análise em tempo de resposta para cada tarefa...")
+        tempo_resposta, tarefa = analise_tempo_resposta(tarefas, tempo_maximo)
+        print(f"O sistema não é escalonável. Pois a tarefa de prioridade {tarefa.prioridade} tem deadline {tarefa.intervalo} e o tempo de resposta calculada foi {tempo_resposta}")
