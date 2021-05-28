@@ -1,140 +1,14 @@
-from copy import deepcopy
-import matplotlib.pyplot as plt
-import random, math
+import math
+
+from Processador import Processador
+from Memoria import Memoria
+from Tarefa import Tarefa
+from Gantt_Plotter import Gantt_Plotter
 
 algoritmo_escalonamento = 'EDF'
 tempo_atual = 0
 #Tempo máximo de execução do processador
-tempo_maximo = 500
-
-class Processador:
-    def __init__(self):
-        self.fila = Fila_Processador()
-        self.tarefa_atual = None
-        self.tempo_execucao = 0
-
-    def insere_tarefa_atual(self, tarefa):            
-        self.tarefa_atual = tarefa
-
-    def insere_tarefa(self, tarefa):
-        if tarefa.instante_inicio == 0:
-            #Se a tarefa ainda não foi iniciada, setamos o instante de início
-            tarefa.instante_inicio = self.tempo_execucao
-
-        if self.tarefa_atual is not None:
-            #Se a tarefa que chegou é menos prioritária, irá para a fila do processador
-            if tarefa.prioridade >= self.tarefa_atual.prioridade:
-                self.fila.insert(tarefa)
-            else:
-                self.fila.insert(self.tarefa_atual)
-                self.insere_tarefa_atual(tarefa) 
-            return
-
-        if not self.fila.isEmpty():
-            #Se a tarefa que chegou é menos prioritáriaque a tarefa aguardando na fila do processador, irá para a fila
-            if tarefa.prioridade > self.fila.tarefas[0].prioridade:
-                self.insere_tarefa_atual(self.fila.pop()) 
-                self.fila.insert(tarefa)
-                return
-        
-        self.insere_tarefa_atual(tarefa) 
-
-    def executa(self):
-        self.tempo_execucao += 1
-        if self.tarefa_atual != None:
-            self.tarefa_atual.incrementa_tempo_executado()
-            if self.tempo_execucao > (self.tarefa_atual.instante_inicio + self.tarefa_atual.intervalo):
-                #O sistema não é escalonável
-                return False
-
-            if self.tarefa_atual.tempo_executado == self.tarefa_atual.tempo_execucao:
-                #Verificando se existe tarefa na fila para ser executada
-                if not self.fila.isEmpty():
-                    self.insere_tarefa_atual(self.fila.pop())
-                else: self.insere_tarefa_atual(None)
-
-        return True
-
-class Fila_Processador:
-    def __init__(self):
-        self.tarefas = []
-
-    def isEmpty(self):
-        if len(self.tarefas) == 0:
-            return True
-        
-        return False
-
-    def pop(self):
-        tarefa = self.tarefas[0]
-        self.tarefas = self.tarefas[1:(len(self.tarefas) - 1)]
-        return tarefa
-
-    def insert(self, tarefa):
-        self.tarefas.append(tarefa)
-        self.tarefas.sort(key=lambda tarefa : tarefa.prioridade)
-        return True
-
-class Tarefa:
-    def __init__(self, liberacao, tempo_execucao, intervalo):
-        self.liberacao = liberacao
-        self.tempo_execucao = tempo_execucao
-        self.intervalo = intervalo
-        self.prioridade = None
-        self.tempo_executado = 0
-        #Instante que o processador começou a executar a tarefa atual
-        self.instante_inicio = 0
-    
-    def set_prioridade(self, prioridade):
-        self.prioridade = prioridade
-
-    def incrementa_tempo_executado(self):
-        self.tempo_executado += 1
-
-class Memoria:
-    def __init__(self, tarefas):
-        self.tarefas = tarefas
-
-    def retorna_tarefas(self, instante):
-        tarefas = []
-        for tarefa in self.tarefas:
-            if tarefa.liberacao == instante or (float(instante - tarefa.liberacao) % float(tarefa.intervalo)) == 0:
-                tarefas.append(deepcopy(tarefa))
-        return tarefas
-
-#Classe que irá plotar o diagrama de Gantt caso o sistema seja escalonável
-class Gantt_Plotter:
-    def __init__(self, n, tempo_maximo, tarefas):
-        cores = ['tab:red', 'tab:green', 'tab:blue', 'tab:orange', 'tab:cyan', 'tab:gray', 'tab:brown', 'yellow', 'lime']
-        self.n = n
-        self.tempo_maximo = tempo_maximo
-        self.tarefa_cor = {}
-
-        yticks = []
-        ytickslabels = []
-        for index, tarefa in enumerate(tarefas):
-            self.tarefa_cor[tarefa.prioridade] = random.choice(cores)
-            yticks.append(((index + 1)*10) - 5)
-            ytickslabels.append(str(index))
-
-        #Definindo configurações iniciais do diagrama
-        fig, self.gnt = plt.subplots()
-        self.gnt.set_ylim(0, (10*n))  
-        self.gnt.set_xlim(0, tempo_maximo)
-
-        self.gnt.set_xlabel('Tempo')
-        self.gnt.set_ylabel('Tarefa')
-        
-        self.gnt.set_yticks(yticks)
-        self.gnt.set_yticklabels(['1', '2', '3'])
-        
-        self.gnt.grid(True)
-
-    def desenha_tarefa(self, tarefa, instante):
-        self.gnt.broken_barh([(instante, 1)], (10*tarefa.prioridade, 9), facecolors = (self.tarefa_cor[tarefa.prioridade]))
-
-    def salva_diagrama(self):
-        plt.savefig("Gantt_Diagram.png")
+tempo_maximo = 100
 
 #Método que recebe a entrada de input.in
 def recebe_entrada():
@@ -232,4 +106,4 @@ if __name__ == '__main__':
         print("O sistema não é escalonável")
         print("Calculando análise em tempo de resposta para cada tarefa...")
         tempo_resposta, tarefa = analise_tempo_resposta(tarefas, tempo_maximo)
-        print(f"O sistema não é escalonável. Pois a tarefa de prioridade {tarefa.prioridade} tem deadline {tarefa.intervalo} e o tempo de resposta calculada foi {tempo_resposta}")
+        print(f"O sistema não é escalonável. Pois a tarefa de prioridade {tarefa.prioridade} tem deadline {tarefa.intervalo} e o tempo de resposta calculado foi {tempo_resposta}")
