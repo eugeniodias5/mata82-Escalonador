@@ -1,0 +1,70 @@
+Bem vindo ao escalonador!
+Por quantos segundos gostaria que o processador executasse?
+20
+Qual algoritmo gostaria de utilizar? Digite RM ou EDF. Em caso de erro de digitação, será utilizado o algoritmo RM.
+EDF
+Digite o número de tarefas que deseja escalonar
+3
+Vamos configurar a tarefa 1...
+Digite o instante de liberação da tarefa 1:
+1 
+Digite o tempo de execução da tarefa 1:
+2
+Digite o intervalo máximo de execução da tarefa 1:
+3
+Vamos configurar a tarefa 2...
+Digite o instante de liberação da tarefa 2:
+2
+Digite o tempo de execução da tarefa 2:
+5
+Digite o intervalo máximo de execução da tarefa 2:
+8 
+Vamos configurar a tarefa 3...
+Digite o instante de liberação da tarefa 3:
+5
+Digite o tempo de execução da tarefa 3:
+9
+Digite o intervalo máximo de execução da tarefa 3:
+12
+Iniciando execução...
+Instante 0: Buscando tarefas na memória.
+Processador está ocioso... Sem tarefas para executar
+Instante 1: Buscando tarefas na memória.
+Encontrada Tarefa com prioridade 0
+Processador executando tarefa com prioridade 0
+Instante 2: Buscando tarefas na memória.
+Encontrada Tarefa com prioridade 1
+Processador executando tarefa com prioridade 0
+Instante 3: Buscando tarefas na memória.
+Processador executando tarefa com prioridade 1
+Instante 4: Buscando tarefas na memória.
+Encontrada Tarefa com prioridade 0
+Processador executando tarefa com prioridade 0
+Instante 5: Buscando tarefas na memória.
+Encontrada Tarefa com prioridade 2
+Processador executando tarefa com prioridade 0
+Instante 6: Buscando tarefas na memória.
+Processador executando tarefa com prioridade 1
+Instante 7: Buscando tarefas na memória.
+Encontrada Tarefa com prioridade 0
+Processador executando tarefa com prioridade 0
+Instante 8: Buscando tarefas na memória.
+Processador executando tarefa com prioridade 0
+Instante 9: Buscando tarefas na memória.
+Processador executando tarefa com prioridade 1
+Instante 10: Buscando tarefas na memória.
+Encontrada Tarefa com prioridade 0
+Encontrada Tarefa com prioridade 1
+Processador executando tarefa com prioridade 0
+Instante 11: Buscando tarefas na memória.
+Processador executando tarefa com prioridade 0
+Instante 12: Buscando tarefas na memória.
+Processador executando tarefa com prioridade 1
+O sistema não é escalonável
+Calculando LUB...
+O LUB calculado para 3 tarefas é 0.78
+O processador teve taxa de utilização de 92.308%
+Calculando análise em tempo de resposta para cada tarefa...
+Calculando tempo de resposta da tarefa com prioridade 2
+Calculando tempo de resposta da tarefa com prioridade 1
+O sistema não é escalonável. Pois a tarefa de prioridade 1 tem deadline 8 e o tempo de resposta calculado foi 15

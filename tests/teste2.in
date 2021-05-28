@@ -1,0 +1,81 @@
+Bem vindo ao escalonador!
+Por quantos segundos gostaria que o processador executasse?
+20
+Qual algoritmo gostaria de utilizar? Digite RM ou EDF. Em caso de erro de digitação, será utilizado o algoritmo RM.
+EDF
+Digite o número de tarefas que deseja escalonar
+3
+Vamos configurar a tarefa 1...
+Digite o instante de liberação da tarefa 1:
+0
+Digite o tempo de execução da tarefa 1:
+1
+Digite o intervalo máximo de execução da tarefa 1:
+5
+Vamos configurar a tarefa 2...
+Digite o instante de liberação da tarefa 2:
+0
+Digite o tempo de execução da tarefa 2:
+2
+Digite o intervalo máximo de execução da tarefa 2:
+6
+Vamos configurar a tarefa 3...
+Digite o instante de liberação da tarefa 3:
+0
+Digite o tempo de execução da tarefa 3:
+2
+Digite o intervalo máximo de execução da tarefa 3:
+7
+Iniciando execução...
+Instante 0: Buscando tarefas na memória.
+Encontrada Tarefa com prioridade 0
+Encontrada Tarefa com prioridade 1
+Encontrada Tarefa com prioridade 2
+Processador executando tarefa com prioridade 0
+Instante 1: Buscando tarefas na memória.
+Processador executando tarefa com prioridade 1
+Instante 2: Buscando tarefas na memória.
+Processador executando tarefa com prioridade 1
+Instante 3: Buscando tarefas na memória.
+Processador executando tarefa com prioridade 2
+Instante 4: Buscando tarefas na memória.
+Processador executando tarefa com prioridade 2
+Instante 5: Buscando tarefas na memória.
+Encontrada Tarefa com prioridade 0
+Processador executando tarefa com prioridade 0
+Instante 6: Buscando tarefas na memória.
+Encontrada Tarefa com prioridade 1
+Processador executando tarefa com prioridade 1
+Instante 7: Buscando tarefas na memória.
+Encontrada Tarefa com prioridade 2
+Processador executando tarefa com prioridade 1
+Instante 8: Buscando tarefas na memória.
+Processador executando tarefa com prioridade 2
+Instante 9: Buscando tarefas na memória.
+Processador executando tarefa com prioridade 2
+Instante 10: Buscando tarefas na memória.
+Encontrada Tarefa com prioridade 0
+Processador executando tarefa com prioridade 0
+Instante 11: Buscando tarefas na memória.
+Processador está ocioso... Sem tarefas para executar
+Instante 12: Buscando tarefas na memória.
+Encontrada Tarefa com prioridade 1
+Processador executando tarefa com prioridade 1
+Instante 13: Buscando tarefas na memória.
+Processador executando tarefa com prioridade 1
+Instante 14: Buscando tarefas na memória.
+Encontrada Tarefa com prioridade 2
+Processador executando tarefa com prioridade 2
+Instante 15: Buscando tarefas na memória.
+Encontrada Tarefa com prioridade 0
+Processador executando tarefa com prioridade 0
+Instante 16: Buscando tarefas na memória.
+Processador executando tarefa com prioridade 2
+Instante 17: Buscando tarefas na memória.
+Processador está ocioso... Sem tarefas para executar
+Instante 18: Buscando tarefas na memória.
+Encontrada Tarefa com prioridade 1
+Processador executando tarefa com prioridade 1
+Instante 19: Buscando tarefas na memória.
+Processador executando tarefa com prioridade 1
+O sistema é escalonável. Gerando diagrama de Gantt...
