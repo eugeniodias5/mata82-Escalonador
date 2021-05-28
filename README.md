@@ -7,7 +7,6 @@ Sistema que permite simular o escalonamento de um sistema de tarefas de tempo re
 ###  ![innovation (1)](https://user-images.githubusercontent.com/38790522/87854016-024eb500-c8e5-11ea-8d88-379cc4341e51.png) Bibliotecas e tecnologias utilizadas: 
 - [Python;](https://nodejs.org/en/)
 - [Matplotlib;](https://pypi.org/project/matplotlib/)
-- [Gantt_Plotter;](https://pypi.org/project/python-gantt/)
 
 
 
