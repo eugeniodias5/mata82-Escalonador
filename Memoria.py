@@ -10,3 +10,4 @@ class Memoria:
             if tarefa.liberacao == instante or (float(instante - tarefa.liberacao) % float(tarefa.intervalo)) == 0:
                 tarefas.append(deepcopy(tarefa))
         return tarefas
+        

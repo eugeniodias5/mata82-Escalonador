@@ -10,6 +10,7 @@ class Processador:
         self.tarefa_atual = tarefa
 
     def insere_tarefa(self, tarefa):
+
         if tarefa.instante_inicio == 0:
             #Se a tarefa ainda não foi iniciada, setamos o instante de início
             tarefa.instante_inicio = self.tempo_execucao
@@ -18,6 +19,7 @@ class Processador:
             #Se a tarefa que chegou é menos prioritária, irá para a fila do processador
             if tarefa.prioridade >= self.tarefa_atual.prioridade:
                 self.fila.insert(tarefa)
+
             else:
                 self.fila.insert(self.tarefa_atual)
                 self.insere_tarefa_atual(tarefa) 

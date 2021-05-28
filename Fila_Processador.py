@@ -10,7 +10,13 @@ class Fila_Processador:
 
     def pop(self):
         tarefa = self.tarefas[0]
-        self.tarefas = self.tarefas[1:(len(self.tarefas) - 1)]
+
+        if len(self.tarefas) == 1:
+            tarefa = self.tarefas[0]
+            self.tarefas = []
+            return tarefa
+
+        self.tarefas = self.tarefas[1:]
         return tarefa
 
     def insert(self, tarefa):
