@@ -5,6 +5,7 @@ class Processador:
         self.fila = Fila_Processador()
         self.tarefa_atual = None
         self.tempo_execucao = 0
+        self.tempo_ocioso = 0
 
     def insere_tarefa_atual(self, tarefa):            
         self.tarefa_atual = tarefa
@@ -47,5 +48,8 @@ class Processador:
                 if not self.fila.isEmpty():
                     self.insere_tarefa_atual(self.fila.pop())
                 else: self.insere_tarefa_atual(None)
+
+        else:
+            self.tempo_ocioso += 1
 
         return True

@@ -5,30 +5,34 @@ from Memoria import Memoria
 from Tarefa import Tarefa
 from Gantt_Plotter import Gantt_Plotter
 
-algoritmo_escalonamento = 'EDF'
-tempo_atual = 0
-#Tempo máximo de execução do processador
-tempo_maximo = 100
-
 #Método que recebe a entrada de input.in
 def recebe_entrada():
+    print("Bem vindo ao escalonador!")
+    print("Por quantos segundos gostaria que o processador executasse?")
+    tempo_maximo = int(input())
+
+    print("Qual algoritmo gostaria de utilizar? Digite RM ou EDF. Em caso de erro de digitação, será utilizado o algoritmo RM.")
+    algoritmo_escalonamento = input()
+    if algoritmo_escalonamento != 'EDF':
+        algoritmo_escalonamento = 'RM'
+
+    print("Digite o número de tarefas que deseja escalonar")
     n = int(input())
     tarefas = []
-    tarefa = ''
-    parentese_aberto = False
-    #Pegando dados do arquivo input.in
-    for letra in input():
-        if letra == '(':
-            parentese_aberto = True
-        elif letra == ')':
-            parentese_aberto = False
-            tarefa = tarefa.split(',')
-            tarefas.append(Tarefa(int(tarefa[0]), int(tarefa[1]), int(tarefa[2])))
-            tarefa = ''
-        else:
-            if parentese_aberto:
-                tarefa += letra
-    return n, tarefas
+    
+    for tarefa in range(0, n):
+        print(f"Vamos configurar a tarefa {(tarefa + 1)}...")
+        print(f"Digite o instante de liberação da tarefa {(tarefa + 1)}:")
+        inst_lib = int(input())
+        print(f"Digite o tempo de execução da tarefa {(tarefa + 1)}:")
+        temp_exec = int(input())
+        print(f"Digite o intervalo máximo de execução da tarefa {(tarefa + 1)}:")
+        int_max = int(input())
+        tarefas.append(Tarefa(inst_lib, temp_exec, int_max))
+
+    print("Iniciando execução...")
+
+    return n, tarefas, tempo_maximo, algoritmo_escalonamento
 
 def ordenar_rm(tarefas):
     tarefas.sort(key=lambda tarefa: tarefa.intervalo)
@@ -61,11 +65,16 @@ def analise_tempo_resposta(tarefas, tempo_maximo):
                 break
             valor_iteracao_passada = valor_iteracao
 
+def lub(n, tempo_ocioso, tempo_total):
+    lub = round(n*(math.pow(2, (1/n)) - 1), 3)
+    utilizacao = (tempo_total - tempo_ocioso)/tempo_total
+    utilizacao = round(utilizacao*100, 3)
+
+    return lub, utilizacao
 
 if __name__ == '__main__':
     try:
-        print('Recebendo tarefas de entrada...')
-        n, tarefas = recebe_entrada()
+        n, tarefas, tempo_maximo, algoritmo_escalonamento = recebe_entrada()
         
         if algoritmo_escalonamento == 'RM':
             tarefas = ordenar_rm(tarefas)
@@ -103,8 +112,15 @@ if __name__ == '__main__':
         if escalonavel:
             print("O sistema é escalonável. Gerando diagrama de Gantt...")
             gantt_plotter.salva_diagrama()
+            lub, utilizacao = lub(n, processador.tempo_ocioso, processador.tempo_execucao)
+            
         else:
             print("O sistema não é escalonável")
+            print("Calculando LUB...")
+            lub, utilizacao = lub(n, processador.tempo_ocioso, processador.tempo_execucao)
+            print(f"O LUB calculado para {n} tarefas é {lub}")
+            print(f"O processador teve taxa de utilização de {utilizacao}%")
+
             print("Calculando análise em tempo de resposta para cada tarefa...")
             tempo_resposta, tarefa = analise_tempo_resposta(tarefas, tempo_maximo)
             print(f"O sistema não é escalonável. Pois a tarefa de prioridade {tarefa.prioridade} tem deadline {tarefa.intervalo} e o tempo de resposta calculado foi {tempo_resposta}")

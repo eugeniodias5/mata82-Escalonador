@@ -28,7 +28,7 @@ $ git clone https://github.com/eugeniodias5/mata82-Escalonador.git
 # Acesse a pasta da aplicação através da linha de comando:
 $ cd mata82-Escalonador
 
-# Para executar no windows, rode o comando: 
-$ cat teste.in | python main.py
+# Para executar no windows, rode o executável main.exe. Ou, em qualquer SO, execute (certifique-se de ter todas as bibliotecas instaladas): 
+$ python main.py
 
 ```
